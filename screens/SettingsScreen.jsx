@@ -1,17 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
 
 import { MainButton } from '../Components/MainButton';
 import { colors } from '../Constants/Colors';
 
-export const SettingsScreen = () => {
+export const SettingsScreen = props => {
+  const removeItemAsync = async () => {
+    await AsyncStorage.removeItem('userToken');
+    props.navigation.navigate('Landing');
+  };
   return (
     <View>
       <Text style={styles.pageTitle}>Settings</Text>
       <Text style={styles.username}>
         Username: <Text style={styles.name}> Yosef</Text>
       </Text>
-      <MainButton title="Sign Out" handler={() => alert('sign out')} />
+      <MainButton title="Sign Out" handler={removeItemAsync} />
     </View>
   );
 };
