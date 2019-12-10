@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { Landing } from './screens/Landing';
+import { SearchBox } from './Components/SearchBox';
 
-export default function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Landing /> 
-    </SafeAreaView>
-  );
+class App extends Component {
+  state = {
+    search: ''
+  }
+
+  handleSearchChange = (text) => {
+    this.setState({ search: text })
+  } 
+
+  render() {
+    const { search } = this.state;
+    
+    return (
+      <SafeAreaView style={styles.container}>
+       <Text>App</Text>
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#e3e3e4',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center'
+  }
 });
+
+export default App;
