@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import Constants from 'expo-constants';
 
-import { SearchBox } from './Components/SearchBox';
+import { HomeScreen } from './screens/HomeScreen';
 
 class App extends Component {
-  state = {
-    search: ''
-  }
-
-  handleSearchChange = (text) => {
-    this.setState({ search: text })
-  } 
-
   render() {
-    const { search } = this.state;
-    
     return (
-      <SafeAreaView style={styles.container}>
-       <Text>App</Text>
-      </SafeAreaView>
+      <View style={styles.container}>
+        <HomeScreen />
+      </View>
     );
   }
 }
@@ -27,8 +18,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e3e3e4',
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginTop: Constants.statusBarHeight,
+    padding: 20
   }
 });
 

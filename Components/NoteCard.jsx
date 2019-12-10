@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     
     elevation: 4,
     marginTop: 25,
-    borderRadius: 5
+    borderRadius: 5,
+    minHeight: 150
   },
   cardTopBar: {
     flexDirection: 'row',
