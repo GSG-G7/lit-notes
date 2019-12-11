@@ -7,22 +7,48 @@ import {
   View
 } from 'react-native';
 
-export class AuthLoadingScreen extends React.Component {
-  componentDidMount() {
-    this.getTokenAsync();
-  }
+import { colors } from '../Constants/Colors';
+import { withFirebase } from '../Firebase/context';
 
-  getTokenAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    this.props.navigation.navigate(userToken ? 'Main' : 'Landing');
-  };
+class AuthLoadingScreen extends React.Component {
+  async componentDidMount() {
+    try {
+      await this.props.firebase.auth.onAuthStateChanged(user => {
+        if (user) {
+          this.props.navigation.navigate('Main');
+        } else {
+          this.props.navigation.navigate('Landing');
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     return (
-      <View>
-        <ActivityIndicator />
+      <View style={StyleSheet.container}>
+        <ActivityIndicator
+          style={styles.ActivityIndicator}
+          size="large"
+          color={colors.blue}
+        />
         <StatusBar barStyle="default" />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
+  },
+  ActivityIndicator: {
+    marginTop: 300
+  }
+});
+
+export default withFirebase(AuthLoadingScreen);

@@ -10,10 +10,6 @@ export class AddScreen extends Component {
     desc: ''
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    tabBarVisible: false
-  });
-
   handleTitleChange = text => {
     this.setState({ title: text });
   };
