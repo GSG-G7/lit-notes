@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+
+import { withFirebase } from '../Firebase/context';
 import { MainButton } from '../Components/MainButton';
 
-export class LandingScreen extends Component {
+class LandingScreen extends Component {
   static navigationOptions = {
-    headerVisible: false,
-  }
+    headerVisible: false
+  };
   setTokenAsync = async () => {
     await AsyncStorage.setItem('userToken', 'abc');
     this.props.navigation.navigate('Main');
@@ -38,3 +40,5 @@ const styles = StyleSheet.create({
     marginTop: 10
   }
 });
+
+export default withFirebase(LandingScreen);
