@@ -9,6 +9,7 @@ import { AddScreen } from '../screens/AddScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { colors } from '../Constants/Colors';
 
+
 export default MainTabNavigator = createBottomTabNavigator(
   {
     Home: HomeScreen,
@@ -35,7 +36,8 @@ export default MainTabNavigator = createBottomTabNavigator(
         }
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
-      tabBarLabel: <View />
+      tabBarLabel: <View />,
+      tabBarVisible: () => navigation.state.routeName === 'Add' ? false : true
     }),
     tabBarOptions: {
       activeTintColor: colors.blue,
