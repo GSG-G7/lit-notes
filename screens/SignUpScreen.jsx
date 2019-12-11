@@ -24,7 +24,7 @@ class SignUpScreen extends Component {
         .set({
           username,
           email
-        });  
+        });
     } catch (error) {
       console.log(error);
       this.setState({ error });
@@ -54,6 +54,7 @@ class SignUpScreen extends Component {
         <TextInput
           style={styles.input}
           placeholder="password"
+          secureTextEntry={true}
           onChangeText={text => this.handleChange(text, 'password')}
         />
         <MainButton title="Continue" handler={this.handleSubmit} />
