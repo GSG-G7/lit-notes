@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  AsyncStorage,
+  TextInput,
   TouchableWithoutFeedback
 } from 'react-native';
 
@@ -12,22 +12,49 @@ import { MainButton } from '../Components/MainButton';
 import { colors } from '../Constants/Colors';
 
 class LandingScreen extends Component {
-
-  setTokenAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('Main');
+  state = {
+    email: '',
+    password: '',
+    error: null
   };
 
   handleMoveSign = () => {
     this.props.navigation.navigate('SignUp');
   };
 
+  handleTextChange = (text, property) => {
+    this.setState({ [property]: text });
+  };
+
+  handleSubmit = async () => {
+    const { firebase } = this.props;
+    const { email, password } = this.state;
+    try {
+      await firebase.auth.signInWithEmailAndPassword(email, password);
+      this.props.navigation.navigate('Main');
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
+
   render() {
+    const { error } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>LitNotes</Text>
         <Text style={styles.about}>Lorem ipsum dolor sit amet.</Text>
-        <MainButton title="Google Sign In" handler={this.setTokenAsync} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={text => this.handleTextChange(text, 'email')}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={text => this.handleTextChange(text, 'password')}
+        />
+        <MainButton title="Sign In" handler={this.setTokenAsync} />
+        {error && <Text>{error.message}</Text>}
         <TouchableWithoutFeedback onPress={this.handleMoveSign}>
           <Text style={styles.signUp}>Sign Up</Text>
         </TouchableWithoutFeedback>
@@ -56,6 +83,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: colors.blue
+  },
+  input: {
+    borderWidth: 0.5,
+    borderColor: '#aaa',
+    padding: 10,
+    fontSize: 16,
+    color: colors.black,
+    marginBottom: 25,
+    borderRadius: 5
   }
 });
 
