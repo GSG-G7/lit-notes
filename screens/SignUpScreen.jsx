@@ -22,11 +22,10 @@ class SignUpScreen extends Component {
       } = await firebase.auth.createUserWithEmailAndPassword(email, password);
       await firebase.db
         .collection('users')
-        .doc()
+        .doc(userId)
         .set({
           username,
-          email,
-          userId
+          email
         });
     } catch (error) {
       this.setState({ error });
