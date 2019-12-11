@@ -4,18 +4,35 @@ import { View, Text, TextInput, StyleSheet, Button } from 'react-native';
 import { MainButton } from '../Components/MainButton';
 import { colors } from '../Constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
-export class AddScreen extends Component {
+import { withFirebase } from '../Firebase/context';
+class AddScreen extends Component {
   state = {
     title: '',
     desc: ''
   };
 
-  handleTitleChange = text => {
-    this.setState({ title: text });
+  handleTextChange = (text, property) => {
+    this.setState({ [property]: text });
   };
 
-  handleDescChange = text => {
-    this.setState({ desc: text });
+  handleSave = async () => {
+    const { firebase, navigation } = this.props;
+    const { title, desc } = this.state;
+    try {
+      const userId = await firebase.auth.currentUser.uid;
+      await firebase.db
+        .collection('notes')
+        .doc()
+        .set({
+          title,
+          desc,
+          timestamp: Date.now(),
+          userId
+        });
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
@@ -32,16 +49,16 @@ export class AddScreen extends Component {
           placeholder="New Note"
           placeholderTextColor={colors.black}
           multiline={true}
-          onChangeText={this.handleTitleChange}
+          onChangeText={text => this.handleTextChange(text, 'title')}
         />
         <TextInput
           style={styles.noteDesc}
           placeholder="Write your words here"
           placeholderTextColor={colors.gray}
           multiline={true}
-          onChangeText={this.handleDescChange}
+          onChangeText={text => this.handleTextChange(text, 'desc')}
         />
-        <MainButton title="Save Note" handler={() => alert('saved')} />
+        <MainButton title="Save Note" handler={this.handleSave} />
       </View>
     );
   }
@@ -82,3 +99,5 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top'
   }
 });
+
+export default withFirebase(AddScreen);
