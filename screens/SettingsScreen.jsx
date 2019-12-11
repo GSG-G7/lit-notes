@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
 
 import { MainButton } from '../Components/MainButton';
 import { colors } from '../Constants/Colors';
+import { withFirebase } from '../Firebase/context';
 
-export const SettingsScreen = props => {
-  const removeItemAsync = async () => {
-    await AsyncStorage.removeItem('userToken');
+const SettingsScreen = props => {
+  const signOutAsync = async () => {
+    await props.firebase.auth.signOut();
     props.navigation.navigate('Landing');
   };
   return (
@@ -15,7 +16,7 @@ export const SettingsScreen = props => {
       <Text style={styles.username}>
         Username: <Text style={styles.name}> Yosef</Text>
       </Text>
-      <MainButton title="Sign Out" handler={removeItemAsync} />
+      <MainButton title="Sign Out" handler={signOutAsync} />
     </View>
   );
 };
@@ -41,3 +42,5 @@ const styles = StyleSheet.create({
     color: colors.black
   }
 });
+
+export default withFirebase(SettingsScreen);

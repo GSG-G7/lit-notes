@@ -33,6 +33,7 @@ class LandingScreen extends Component {
       await firebase.auth.signInWithEmailAndPassword(email, password);
       this.props.navigation.navigate('Main');
     } catch (error) {
+      console.log(error)
       this.setState({ error });
     }
   };
@@ -51,13 +52,14 @@ class LandingScreen extends Component {
         <TextInput
           style={styles.input}
           placeholder="Password"
+          secureTextEntry={true}
           onChangeText={text => this.handleTextChange(text, 'password')}
         />
-        <MainButton title="Sign In" handler={this.setTokenAsync} />
-        {error && <Text>{error.message}</Text>}
+        <MainButton title="Sign In" handler={this.handleSubmit} />
         <TouchableWithoutFeedback onPress={this.handleMoveSign}>
           <Text style={styles.signUp}>Sign Up</Text>
         </TouchableWithoutFeedback>
+        {error && <Text>{error.message}</Text>}
       </View>
     );
   }
@@ -65,9 +67,7 @@ class LandingScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20
+    padding: 20,
   },
   heading: {
     fontSize: 32,
