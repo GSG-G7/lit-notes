@@ -4,10 +4,9 @@ import 'firebase/auth';
 
 import { config } from '../config';
 
-firebase.initializeApp(config);
-
 class Firebase {
   constructor() {
+    firebase.initializeApp(config);
     this.db = firebase.firestore();
     this.auth = firebase.auth();
     this.googleProvider = new firebase.auth.GoogleAuthProvider();
