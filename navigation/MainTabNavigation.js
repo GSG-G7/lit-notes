@@ -5,8 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { View } from 'react-native';
 
 import { HomeScreen } from '../screens/HomeScreen';
-import { AddScreen } from '../screens/AddScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
+import  AddScreen  from '../screens/AddScreen';
+import SettingsScreen  from '../screens/SettingsScreen';
 import { colors } from '../Constants/Colors';
 
 
