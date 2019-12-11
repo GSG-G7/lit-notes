@@ -17,16 +17,18 @@ class SignUpScreen extends Component {
     try {
       const { firebase } = this.props;
       const { username, email, password } = this.state;
-      await firebase.auth.createUserWithEmailAndPassword(email, password);
+      const {
+        user: { uid: userId }
+      } = await firebase.auth.createUserWithEmailAndPassword(email, password);
       await firebase.db
         .collection('users')
         .doc()
         .set({
           username,
-          email
+          email,
+          userId
         });
     } catch (error) {
-      console.log(error);
       this.setState({ error });
     }
   };
