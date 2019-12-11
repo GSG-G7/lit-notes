@@ -11,16 +11,15 @@ class App extends Component {
         <AppNavigation />
       </View>
     );
-  } 
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e3e3e4',  
+    backgroundColor: '#e3e3e4',
     marginTop: Constants.statusBarHeight,
-    // padding: 20
-  }
+  },
 });
 
 export default App;
