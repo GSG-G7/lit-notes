@@ -10,7 +10,7 @@ export const SettingsScreen = props => {
     props.navigation.navigate('Landing');
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.pageTitle}>Settings</Text>
       <Text style={styles.username}>
         Username: <Text style={styles.name}> Yosef</Text>
@@ -22,7 +22,7 @@ export const SettingsScreen = props => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative'
+    padding: 20
   },
   pageTitle: {
     fontSize: 36,

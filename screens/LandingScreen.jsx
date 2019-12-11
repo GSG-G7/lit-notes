@@ -23,7 +23,9 @@ export class LandingScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20
   },
   heading: {
     fontSize: 32,
