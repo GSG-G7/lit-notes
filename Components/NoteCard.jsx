@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
     shadowColor: "#000",
     shadowOffset: {
-        width: 0,
-        height: 2,
+      width: 0,
+      height: 2,
     },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     
-    elevation: 4,
+    elevation: 5,
     marginTop: 25,
     borderRadius: 5,
     minHeight: 150

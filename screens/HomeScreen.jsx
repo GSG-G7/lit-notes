@@ -21,8 +21,8 @@ export class HomeScreen extends Component {
     return (
       <View style={styles.homeContainer}>
         <Text style={styles.heading}>My Notes</Text>
+        <SearchBox value={search} handler={this.handleSearchChange} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <SearchBox value={search} handler={this.handleSearchChange} />
           {notes.map(note => (
             <NoteCard
               key={note.id}
@@ -40,7 +40,9 @@ export class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   homeContainer: {
-    flex: 1
+    flex: 1,
+    paddingTop: 20,
+    paddingHorizontal: 20
   },
   heading: {
     fontSize: 36,
