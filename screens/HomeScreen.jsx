@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { compose } from 'recompose';
 
 import { colors } from '../Constants/Colors';
 import { SearchBox } from '../Components/SearchBox';
 import { NoteCard } from '../Components/NoteCard';
-
 import { withFirebase } from '../Firebase/context';
 class HomeScreen extends Component {
   state = {
@@ -14,18 +11,29 @@ class HomeScreen extends Component {
     notes: []
   };
 
-  async componentDidMount() {
-    console.log(this.props.isFocused)
+  componentDidMount() {
+    this.getNotes();
+  }
 
-    const { firebase, navigation } = this.props;
+  // To get the data every time we navigate to this screen
+  componentDidUpdate(prevProps) {
+    console.log('another hablaaa');
+    const prevParam = prevProps.navigation.getParam('randomValue');
+    const param = this.props.navigation.getParam('randomValue');
+    if (prevParam !== param) {
+      this.getNotes();
+    }
+  }
+
+  getNotes = async () => {
+    const { firebase } = this.props;
     const notes = [];
     try {
       const { uid: userId } = firebase.auth.currentUser;
-      console.log(userId);
-
       const querySnapshot = await firebase.db
         .collection('notes')
         .where('userId', '==', userId)
+        // .orderBy('timestamp', 'desc')
         .get();
       querySnapshot.forEach(doc => {
         notes.push({ id: doc.id, ...doc.data() });
@@ -34,38 +42,34 @@ class HomeScreen extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  async componentDidUpdate(prevProps) {
-    console.log(this.props.isFocused());
-    if (this.props.isFocused) {
-      const { firebase, navigation } = this.props;
-      const notes = [];
-      try {
-        const { uid: userId } = firebase.auth.currentUser;
-        console.log(userId);
-
-        const querySnapshot = await firebase.db
-          .collection('notes')
-          .where('userId', '==', userId)
-          .get();
-        querySnapshot.forEach(doc => {
-          notes.push({ id: doc.id, ...doc.data() });
-        });
-        this.setState({ notes });
-      } catch (error) {
-        console.log(error);
-      }
+  deleteNote = async id => {
+    const { firebase } = this.props;
+    const { notes } = this.state;
+    try {
+      await firebase.db
+        .collection('notes')
+        .doc(id)
+        .delete();
+      const newNotes = notes.filter(note => note.id !== id);
+      this.setState({ notes: newNotes });
+    } catch (error) {
+      alert(error.message);
     }
-  }
+  };
+
+  handleNotesSearch = () => {
+    const { search, notes } = this.state;
+    const newNotes = notes.filter(note => note.title.includes(search));
+    this.setState({ notes: newNotes });
+  };
 
   handleSearchChange = text => {
     this.setState({ search: text });
   };
 
   render() {
-    console.log(this.props.navigation.isFocused);
-
     const { search, notes } = this.state;
     return (
       <View style={styles.homeContainer}>
@@ -79,7 +83,7 @@ class HomeScreen extends Component {
                 title={note.title}
                 desc={note.desc}
                 timestamp={note.timestamp}
-                handler={() => alert('delete!')}
+                handler={() => this.deleteNote(note.id)}
               />
             ))
           ) : (
@@ -114,4 +118,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default compose(withFirebase, withNavigation)(HomeScreen);
+export default withFirebase(HomeScreen);
