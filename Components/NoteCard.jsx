@@ -9,7 +9,7 @@ export const NoteCard = ({ title, desc, timestamp, handler }) => {
     <View style={styles.cardContainer}>
       <View style={styles.cardTopBar}>
         <Text style={styles.timestamp}>{Date(timestamp).toString().slice(0, 15)}</Text>
-        <Ionicons name="md-close-circle" size={24} onPress={handler} />
+        <Ionicons name="md-close" size={24} onPress={handler} />
       </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.desc}>{desc}</Text>
