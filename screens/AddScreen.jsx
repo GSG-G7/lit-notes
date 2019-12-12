@@ -29,7 +29,9 @@ class AddScreen extends Component {
           timestamp: Date.now(),
           userId
         });
-      navigation.navigate('Home');
+      navigation.navigate('Home', {
+        randomValue: Date.now()
+      });
     } catch (error) {
       console.log(error);
     }
