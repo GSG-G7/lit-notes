@@ -9,7 +9,7 @@ export const SearchBox = ({ value, handler }) => {
     <View style={styles.searchContainer}>
       <Ionicons name="md-search" size={25} style={styles.searchIcon} />
       <TextInput
-        placeholder="search"
+        placeholder="Search"
         placeholderTextColor={colors.blue}
         value={value}
         onChangeText={handler}
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     color: colors.blue,
-    shadowColor: '#aaa',
+    shadowColor: '#f2f2f2',
     shadowOffset: {
       width: 0,
       height: 3

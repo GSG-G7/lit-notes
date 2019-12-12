@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
+import * as Font from 'expo-font';
 
 import Firebase from './Firebase/firebase';
 import { FirebaseContext } from './Firebase/context';
@@ -8,6 +9,12 @@ import { FirebaseContext } from './Firebase/context';
 import AppNavigation from './navigation/AppNavigation';
 
 class App extends Component {
+  componentDidMount() {
+    Font.loadAsync({
+      'open-sans': require('./assets/Fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold': require('./assets/Fonts/OpenSans-SemiBold.ttf')
+    });
+  }
   render() {
     return (
       <FirebaseContext.Provider value={new Firebase()}>
@@ -22,7 +29,7 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e3e3e4',
+    backgroundColor: '#f2f2f2',
     marginTop: Constants.statusBarHeight
   }
 });

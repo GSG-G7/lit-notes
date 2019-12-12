@@ -28,6 +28,7 @@ class SignUpScreen extends Component {
           email
         });
     } catch (error) {
+      console.log(error)
       this.setState({ error });
     }
   };
@@ -37,8 +38,7 @@ class SignUpScreen extends Component {
   };
 
   render() {
-    const { email, password, error } = this.state;
-    // console.log(email, password)
+    const { error } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>Sign Up</Text>
@@ -59,7 +59,7 @@ class SignUpScreen extends Component {
           onChangeText={text => this.handleChange(text, 'password')}
         />
         <MainButton title="Continue" handler={this.handleSubmit} />
-        {error && <Text>{error.message}</Text>}
+        {error && <Text style={styles.error}>{error.message}</Text>}
       </View>
     );
   }
@@ -68,13 +68,16 @@ class SignUpScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
+    flex: 1,
+    marginTop: 50
   },
   heading: {
     fontSize: 36,
-    color: '#242424',
-    fontWeight: '700',
-    marginBottom: 30
+    color: colors.black,
+    marginBottom: 30,
+    textAlign: 'center',
+    fontFamily: 'open-sans-bold'
   },
   input: {
     borderWidth: 0.5,
@@ -83,7 +86,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.black,
     marginBottom: 25,
-    borderRadius: 5
+    borderRadius: 5,
+    fontFamily: 'open-sans'
+  },
+  error: {
+    fontSize: 14,
+    color: '#d62424',
+    textAlign: 'center',
+    fontWeight: '700',
+    marginTop: 20
   }
 });
 
