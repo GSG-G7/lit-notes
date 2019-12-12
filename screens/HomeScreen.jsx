@@ -67,6 +67,8 @@ class HomeScreen extends Component {
 
   handleSearchChange = text => {
     this.setState({ search: text });
+    if (text.trim() === '') this.getNotes();
+    this.handleNotesSearch();
   };
 
   render() {
