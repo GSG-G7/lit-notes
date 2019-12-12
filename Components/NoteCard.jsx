@@ -23,16 +23,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 5,
+      height: 15,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    
+    shadowRadius: 100,
     elevation: 5,
     marginTop: 25,
-    borderRadius: 5,
-    minHeight: 150
+    borderRadius: 4,
+    minHeight: 150,
+    zIndex: 1,
+    borderWidth: 0.5,
+    borderColor: '#ccc'
   },
   cardTopBar: {
     flexDirection: 'row',
@@ -46,12 +48,14 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 18,
     fontWeight: '700',
-    marginTop: 5
+    marginTop: 5,
+    fontFamily: 'open-sans-bold'
   },
   desc: {
     color: colors.black,
     fontSize: 14,
     fontWeight: '400',
-    marginTop: 10
+    marginTop: 10,
+    fontFamily: 'open-sans'
   }
 });

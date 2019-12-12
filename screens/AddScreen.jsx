@@ -91,14 +91,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     borderBottomWidth: 1,
     borderBottomColor: '#cccc',
-    marginTop: 10
+    marginTop: 10,
+    fontFamily: 'open-sans-bold'
   },
   noteDesc: {
     minHeight: '60%',
     maxHeight: '70%',
     marginTop: 20,
     fontSize: 20,
-    textAlignVertical: 'top'
+    textAlignVertical: 'top',
+    fontFamily: 'open-sans'
   }
 });
 

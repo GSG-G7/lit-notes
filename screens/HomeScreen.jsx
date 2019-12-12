@@ -5,10 +5,12 @@ import { colors } from '../Constants/Colors';
 import { SearchBox } from '../Components/SearchBox';
 import { NoteCard } from '../Components/NoteCard';
 import { withFirebase } from '../Firebase/context';
+import Loading from '../Components/Loading';
 class HomeScreen extends Component {
   state = {
     search: '',
-    notes: []
+    notes: [],
+    loading: true
   };
 
   componentDidMount() {
@@ -17,7 +19,6 @@ class HomeScreen extends Component {
 
   // To get the data every time we navigate to this screen
   componentDidUpdate(prevProps) {
-    console.log('another hablaaa');
     const prevParam = prevProps.navigation.getParam('randomValue');
     const param = this.props.navigation.getParam('randomValue');
     if (prevParam !== param) {
@@ -32,13 +33,13 @@ class HomeScreen extends Component {
       const { uid: userId } = firebase.auth.currentUser;
       const querySnapshot = await firebase.db
         .collection('notes')
+        .orderBy('timestamp', 'desc')
         .where('userId', '==', userId)
-        // .orderBy('timestamp', 'desc')
         .get();
       querySnapshot.forEach(doc => {
         notes.push({ id: doc.id, ...doc.data() });
       });
-      this.setState({ notes });
+      this.setState({ notes, loading: false });
     } catch (error) {
       console.log(error);
     }
@@ -47,13 +48,14 @@ class HomeScreen extends Component {
   deleteNote = async id => {
     const { firebase } = this.props;
     const { notes } = this.state;
+    this.setState({ loading: true });
     try {
       await firebase.db
         .collection('notes')
         .doc(id)
         .delete();
       const newNotes = notes.filter(note => note.id !== id);
-      this.setState({ notes: newNotes });
+      this.setState({ notes: newNotes, loading: false });
     } catch (error) {
       alert(error.message);
     }
@@ -61,7 +63,9 @@ class HomeScreen extends Component {
 
   handleNotesSearch = () => {
     const { search, notes } = this.state;
-    const newNotes = notes.filter(note => note.title.includes(search));
+    const newNotes = notes.filter(note =>
+      note.title.toLowerCase().includes(search.toLowerCase())
+    );
     this.setState({ notes: newNotes });
   };
 
@@ -72,7 +76,8 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { search, notes } = this.state;
+    const { search, notes, loading } = this.state;
+    if (loading) return <Loading />;
     return (
       <View style={styles.homeContainer}>
         <Text style={styles.heading}>My Notes</Text>
@@ -105,9 +110,9 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 36,
-    color: '#242424',
-    fontWeight: '700',
-    marginBottom: 20
+    color: colors.black,
+    marginBottom: 20,
+    fontFamily: 'open-sans-bold'
   },
   notesCards: {
     marginHorizontal: 20
@@ -116,7 +121,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colors.black,
     textAlign: 'center',
-    marginTop: 25
+    marginTop: 25,
+    fontFamily: 'open-sans'
   }
 });
 

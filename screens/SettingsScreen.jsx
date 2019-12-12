@@ -4,25 +4,27 @@ import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
 import { MainButton } from '../Components/MainButton';
 import { colors } from '../Constants/Colors';
 import { withFirebase } from '../Firebase/context';
+import Loading from '../Components/Loading';
 
 class SettingsScreen extends Component {
   state = {
     username: '',
-    email: ''
+    email: '',
+    loading: true
   };
 
   async componentDidMount() {
     const { firebase } = this.props;
     const { uid: userId } = firebase.auth.currentUser;
-    try { 
+    try {
       const userData = await firebase.db
         .collection('users')
         .doc(userId)
         .get();
       const { username, email } = userData.data();
-      this.setState({ username, email });
+      this.setState({ username, email, loading: false });
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     }
   }
 
@@ -32,10 +34,11 @@ class SettingsScreen extends Component {
   };
 
   render() {
-    const { username, email } = this.state;
+    const { username, email, loading } = this.state;
+    if (loading) return <Loading />;
     return (
       <View style={styles.container}>
-        <Text style={styles.pageTitle}>Settings</Text>
+        <Text style={styles.pageTitle}>Profile</Text>
         <Text style={styles.span}>
           Username: <Text style={styles.name}>{username}</Text>
         </Text>
@@ -56,17 +59,20 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '700',
     marginBottom: 20,
-    color: colors.black
+    color: colors.black,
+    fontFamily: 'open-sans-bold'
   },
   span: {
     fontSize: 20,
     color: colors.gray,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: 'open-sans'
   },
   name: {
     fontWeight: '700',
     marginBottom: 20,
-    color: colors.black
+    color: colors.black,
+    fontFamily: 'open-sans-bold'
   }
 });
 

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { withFirebase } from '../Firebase/context';
-import { MainButton } from '../Components/MainButton';
+import { SubButton } from '../Components/SubButton';
 import { colors } from '../Constants/Colors';
 
 class LandingScreen extends Component {
@@ -33,7 +33,7 @@ class LandingScreen extends Component {
       await firebase.auth.signInWithEmailAndPassword(email, password);
       this.props.navigation.navigate('Main');
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.setState({ error });
     }
   };
@@ -42,24 +42,29 @@ class LandingScreen extends Component {
     const { error } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>LitNotes</Text>
-        <Text style={styles.about}>Lorem ipsum dolor sit amet.</Text>
+        <Text style={styles.heading}>LITNotes</Text>
+        <Text style={styles.about}>A place to keep your notes</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
+          placeholderTextColor="#f3f3f3"
           onChangeText={text => this.handleTextChange(text, 'email')}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="#f3f3f3"
           secureTextEntry={true}
           onChangeText={text => this.handleTextChange(text, 'password')}
         />
-        <MainButton title="Sign In" handler={this.handleSubmit} />
+        <SubButton title="Sign In" handler={this.handleSubmit} />
         <TouchableWithoutFeedback onPress={this.handleMoveSign}>
-          <Text style={styles.signUp}>Sign Up</Text>
+          <Text style={styles.register}>
+            Don't have an account?
+            <Text style={styles.signUp}>Sign Up</Text>
+          </Text>
         </TouchableWithoutFeedback>
-        {error && <Text>{error.message}</Text>}
+        {error && <Text style={styles.error}>{error.message}</Text>}
       </View>
     );
   }
@@ -67,31 +72,51 @@ class LandingScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
+    backgroundColor: colors.blue,
+    justifyContent: 'center'
   },
   heading: {
-    fontSize: 32,
-    color: '#242424',
-    fontWeight: '700'
+    fontSize: 52,
+    color: '#f3f3f3',
+    textAlign: 'center',
+    fontFamily: 'open-sans-bold'
   },
   about: {
     fontSize: 16,
-    color: '#acacad',
-    marginTop: 10
+    color: '#f1f1f1',
+    marginTop: 10,
+    textAlign: 'center',
+    marginBottom: 40,
+    fontFamily: 'open-sans'
+  },
+  register: {
+    marginTop: 20,
+    fontSize: 16,
+    color: '#f3f3f3',
+    textAlign: 'center'
   },
   signUp: {
-    marginTop: 10,
-    fontSize: 16,
-    color: colors.blue
+    fontWeight: '700',
+    color: '#f3f3f3'
   },
   input: {
     borderWidth: 0.5,
-    borderColor: '#aaa',
+    borderColor: '#f3f3f3',
     padding: 10,
     fontSize: 16,
-    color: colors.black,
+    color: '#fff',
     marginBottom: 25,
-    borderRadius: 5
+    borderRadius: 5,
+    fontFamily: 'open-sans'
+  },
+  error: {
+    fontSize: 14,
+    color: '#242424',
+    textAlign: 'center',
+    fontWeight: '700',
+    marginTop: 20
   }
 });
 
